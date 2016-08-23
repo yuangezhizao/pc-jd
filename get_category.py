@@ -11,6 +11,21 @@ import json
 
 def get_category():
     catalog_url='http://dc.3.cn/category/get?callback=getCategoryCallback' #京东首页目录
+    '''
+    全部商品分类：
+    1.家用电器
+      1.1 电视
+        1.1.1 合资品牌
+        1.1.2 国产品牌
+        1.1.3 互联网品牌
+      1.2 空调
+      ...
+      1.9 家庭影音
+    2.手机、数码、京东通信
+    3.电脑、办公
+    ...
+    15.理财、众筹、白条、保险   
+    '''
     response=requests.get(catalog_url).text      #？错误捕捉与处理
     catalog_json=json.loads(response[20:-1])
     catalog_list=catalog_json['data']#目录列表
@@ -20,8 +35,11 @@ def get_category():
         catalog_i_list=catalog_i['s'] #列表
         for j in range(0,len(catalog_i_list)):
             category_level1=catalog_i_list[j]
-            category_level1_name=category_level1['n'] #一级类别名称
-            print(category_level1_name)
+            category_level1_name=category_level1['n'].split('|')[1] #一级类别名称
+            category_level1_list=category_level1['s']
+            for k in range(0,len(category_level1_list)):
+                
+        
         
         
         
