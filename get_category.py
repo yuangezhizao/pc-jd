@@ -6,7 +6,7 @@ Created on Sat Aug 20 13:28:21 2016 @南京图书馆
 [三级类别编码，三级类别名称，二级类别名称，一级类别名称]
 [737,738,751，电风扇，生活电器，家用电器]
 二、逻辑
-1.首页商品目录
+1.首页商品目录（building--storey--catalog）
     全部商品分类：【catalog 目录】
     1.家用电器 【catalog_level1 一级目录】
       1.1 电视 【catalog_level2 二级目录】
@@ -19,11 +19,11 @@ Created on Sat Aug 20 13:28:21 2016 @南京图书馆
     2.手机、数码、京东通信
     3.电脑、办公
     ...
-    15.理财、众筹、白条、保险
+    15.理财、众筹、白条、保险 【共15层】
 2.商品目录转换成商品类别【catalog-->category】
 （1）如果二级目录编码是“737,794,870”形式，那么三级类别编码=二级目录编码，三级类别名称=二级目录名称，二级类别名称=二级目录名称，一级类别名称=一级目录名称
 （2）否则，如果三级目录编码是“737,794,870”形式，那么三级类别编码=三级目录编码，三级类别名称=三级目录名称，二级类别名称=二级目录名称，一级类别名称=一级目录名称
-（3）否则，如果三级目录编码是“6196-6197”形式，那么
+（3）否则，如果三级目录编码是“6196-6197”形式，那么向下爬http://channel.jd.com/6196-6197.html获取三级类别编码和名称，二级类别名称=三级目录名称，一级类别名称=一级目录名称
 3.商品目录URL：http://dc.3.cn/category/get?callback=getCategoryCallback
 @author: thinkpad
 """
@@ -32,32 +32,17 @@ import requests
 import json
 
 def get_category():
-    catalog_url='http://dc.3.cn/category/get?callback=getCategoryCallback' #京东首页目录
-    '''
-    全部商品分类：【catalog 目录】
-    1.家用电器 【catalog_level1 一级目录】
-      1.1 电视 【catalog_level2 二级目录】
-        1.1.1 合资品牌 【catalog_level3 三级目录】
-        1.1.2 国产品牌
-        1.1.3 互联网品牌
-      1.2 空调
-      ...
-      1.9 家庭影音
-    2.手机、数码、京东通信
-    3.电脑、办公
-    ...
-    15.理财、众筹、白条、保险   
-    '''
-    response=requests.get(catalog_url).text      #？错误捕捉与处理
-    catalog_json=json.loads(response[20:-1])
-    catalog_list=catalog_json['data']#目录列表
-    catalog_num=len(catalog_list)#目录数量，每个目录包含若干一级商品类别
+    storeys_url='http://dc.3.cn/category/get?callback=getCategoryCallback' #京东首页目录
+    response=requests.get(storeys_url).text      #？错误捕捉与处理
+    storeys_json=json.loads(response[20:-1])
+    floor_list=storeys_json['data']#层列表
+    floor_num=len(floor_list)#层数，每层包含若干目录
     for i in range(0,1):
-        catalog_i=catalog_list[i] #第i个目录
-        catalog_i_list=catalog_i['s'] #列表
-        for j in range(0,len(catalog_i_list)):
-            category_level1=catalog_i_list[j]
-            category_level1_name=category_level1['n'].split('|')[1] #一级类别名称
+        floor_i=floor_list[i] #第i层
+        floor_i_list=floor_i['s'] #第i层列表
+        for j in range(0,len(floor_i_list)):
+            catalog_level1=floor_i_list[j] #第i层列表的第j个目录
+            catalog_level1_name=catalog_level1['n'].split('|')[1] #一级目录名称
             category_level1_list=category_level1['s']
             for k in range(0,len(category_level1_list)):
                 
