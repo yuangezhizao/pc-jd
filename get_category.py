@@ -1,8 +1,30 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sat Aug 20 13:28:21 2016 @南京图书馆
-抓取京东品类,url='http://dc.3.cn/category/get?callback=getCategoryCallback'
-
+一、功能
+抓取京东商品类别，并存入数据库
+[三级类别编码，三级类别名称，二级类别名称，一级类别名称]
+[737,738,751，电风扇，生活电器，家用电器]
+二、逻辑
+1.首页商品目录
+    全部商品分类：【catalog 目录】
+    1.家用电器 【catalog_level1 一级目录】
+      1.1 电视 【catalog_level2 二级目录】
+        1.1.1 合资品牌 【catalog_level3 三级目录】
+        1.1.2 国产品牌
+        1.1.3 互联网品牌
+      1.2 空调
+      ...
+      1.9 家庭影音
+    2.手机、数码、京东通信
+    3.电脑、办公
+    ...
+    15.理财、众筹、白条、保险
+2.商品目录转换成商品类别【catalog-->category】
+（1）如果二级目录编码是“737,794,870”形式，那么三级类别编码=二级目录编码，三级类别名称=二级目录名称，二级类别名称=二级目录名称，一级类别名称=一级目录名称
+（2）否则，如果三级目录编码是“737,794,870”形式，那么三级类别编码=三级目录编码，三级类别名称=三级目录名称，二级类别名称=二级目录名称，一级类别名称=一级目录名称
+（3）否则，如果三级目录编码是“6196-6197”形式，那么
+3.商品目录URL：http://dc.3.cn/category/get?callback=getCategoryCallback
 @author: thinkpad
 """
 
@@ -12,10 +34,10 @@ import json
 def get_category():
     catalog_url='http://dc.3.cn/category/get?callback=getCategoryCallback' #京东首页目录
     '''
-    全部商品分类：
-    1.家用电器
-      1.1 电视
-        1.1.1 合资品牌
+    全部商品分类：【catalog 目录】
+    1.家用电器 【catalog_level1 一级目录】
+      1.1 电视 【catalog_level2 二级目录】
+        1.1.1 合资品牌 【catalog_level3 三级目录】
         1.1.2 国产品牌
         1.1.3 互联网品牌
       1.2 空调
