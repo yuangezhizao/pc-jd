@@ -32,19 +32,23 @@ import requests
 import json
 
 def get_category():
-    storeys_url='http://dc.3.cn/category/get?callback=getCategoryCallback' #京东首页目录
-    response=requests.get(storeys_url).text      #？错误捕捉与处理
+    storeys_url='http://dc.3.cn/category/get?callback=getCategoryCallback'      #京东首页目录楼层地址
+    response=requests.get(storeys_url).text                                     #？错误捕捉与处理
     storeys_json=json.loads(response[20:-1])
-    floor_list=storeys_json['data']#层列表
-    floor_num=len(floor_list)#层数，每层包含若干目录
-    for i in range(0,1):
-        floor_i=floor_list[i] #第i层
-        floor_i_list=floor_i['s'] #第i层列表
-        for j in range(0,len(floor_i_list)):
-            catalog_level1=floor_i_list[j] #第i层列表的第j个目录
-            catalog_level1_name=catalog_level1['n'].split('|')[1] #一级目录名称
-            category_level1_list=category_level1['s']
-            for k in range(0,len(category_level1_list)):
+    storeys=storeys_json['data']                                                #目录楼
+    storeys_num=len(storeys)                                                     #层数，每层包含若干目录
+    for i in range(0,1):                                                        #遍历目录楼
+        storey=storeys[i]                                                        #第i层目录楼
+        catalogs_level1=storey['s']                                              #第i层的所有一级目录
+        for j in range(0,len(catalogs_level1)):                                 #遍历一级目录
+            catalog_level1=catalogs_level1[j]                                   #第i层的第j个一级目录
+            catalog_level1_name=catalog_level1['n'].split('|')[1]               #第j个一级目录名称
+            catalogs_level2=catalog_level1['s']                                 #第j个一级目录的所有二级目录
+            for k in range(0,len(catalogs_level2)):                                 #遍历二级目录
+                catalog_level2=catalogs_level2[k]                               #第j个一级目录的第k个二级目录
+                catalog_level2_n=catalog_level2['n']
+                print(catalog_level2_n)
+            
                 
         
         
