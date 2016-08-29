@@ -57,9 +57,12 @@ catalog_level1_name,crawl_id,crawl_date): #抓取'123-123'形式的三级目录�
     response=requests.get(url)
     response.encoding='gb2312'
     soup=bs4.BeautifulSoup(response.text,'html.parser')
-    for s in soup.find_all('a',target='_blank'):
+    for s in soup.find_all('a'):
         href=s.get('href')
-        id_list=re.findall('\d+[,-]\d+[,-]\d+',href)                         #'123-123-123'形式
+        if href is None:
+            id_list=[]
+        else:
+            id_list=re.findall('\d+[,-]\d+[,-]\d+',href)                         #'123-123-123'形式
         if len(id_list)>0:                                                   #匹配有结果
             for i in id_list:
                 if len(i)>10:                                                #长度大于10，排除非类别编码的查询结果
