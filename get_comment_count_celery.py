@@ -7,7 +7,7 @@ Created on Fri Sep 23 13:45:52 2016
 
 二、逻辑
 1.评论数量URL：http://club.jd.com/clubservice.aspx?method=GetCommentsCount&referenceIds=3243686
-
+http://club.jd.com/clubservice.aspx?method=GetCommentsCount&referenceIds=659831
 @author: thinkpad
 """
 
@@ -78,9 +78,12 @@ def query_sku_group(crawl_id):
     sku_group_list=[]
     conn=pymysql.connect(host='127.0.0.1',user='root',password='1111',
                          db='customer')
+    #sql='select distinct sku_jd.sku_group from sku_jd limit 100'
+    
     sql='select distinct sku_jd.sku_group from sku_jd where sku_jd.sku_group \
     not in (select comment_count_jd.sku_group from comment_count_jd where \
-    comment_count_jd.crawl_id=%s)'%crawl_id
+    comment_count_jd.crawl_id=%s) limit 10000'%crawl_id
+    
     sku_group_df=pd.read_sql(sql,conn)
     for sku_group in sku_group_df['sku_group']:
         sku_group_list.append(sku_group)
