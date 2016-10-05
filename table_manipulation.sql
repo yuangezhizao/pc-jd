@@ -40,4 +40,25 @@ create table comment_count_jd(      #京东商品评论数量表
   poor_rate_style int,
   crawl_date varchar(45),
   crawl_time varchar(45)) engine=InnoDB;
-
+create table price_jd(              #京东商品价格表
+  id bigint auto_increment primary key, #自增主键
+  crawl_id char(6) not null,        #抓取编号
+  sku varchar(45),                  #sku_jd.sku
+  sku_name varchar(200),            #sku名称
+  sku_price decimal(5,2),           #sku价格
+  stock_state varchar(50),          #库存状态
+  shop_id varchar(45),              #店铺编号
+  shop_name varchar(45),            #店铺名称
+  shop_score decimal(3,1),          #店铺评分
+  follow_count int,                 #店铺关注人数
+  vender_type varchar(6),           
+  ware_type varchar(6),           
+  diamond varchar(10),
+  ware_score decimal(3,1),          #商品评分
+  avg_ware_score decimal(3,1),      
+  ware_score_level varchar(6),      #商品评分级别
+  efficiency_score decimal(3,1),    #物流评分
+  avg_efficiency_score decimal(3,1),      
+  efficiency_score_level varchar(6), #物流评分级别  
+  
+  
