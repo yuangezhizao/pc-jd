@@ -60,5 +60,15 @@ create table price_jd(              #京东商品价格表
   efficiency_score decimal(3,1),    #物流评分
   avg_efficiency_score decimal(3,1),      
   efficiency_score_level varchar(6), #物流评分级别  
+  service_score decimal(3,1),       #服务评分
+  avg_service_score decimal(3,1),      
+  service_score_level varchar(6),   #服务评分级别  
+  service_provider varchar(100),    #由***发货，由**提供售后服务
+  ware_provider varchar(15),        #自营
+  crawl_date varchar(45),
+  crawl_time varchar(45)) engine=InnoDB;  
+  
+  
+  
   
   
