@@ -40,13 +40,16 @@ import time
 
 #存入mysql
 def input_mysql(category):
-    conn=pymysql.connect(host='127.0.0.1',user='root',password='root',db='customer',charset='utf8')
+    conn=pymysql.connect(host='127.0.0.1',user='root',password='1111',db='customer',charset='utf8')
     cur=conn.cursor()
     sql='insert into category_jd(crawl_id,category_level3_id,\
     category_level3_name,category_level2_name,category_level1_name,crawl_date)\
     values(%s,%s,%s,%s,%s,%s)'
-    cur.execute(sql,category)
-    conn.commit()
+    try:
+        cur.execute(sql,category)
+        conn.commit()
+    except:
+        pass
     cur.close()
     conn.close()
 
@@ -81,17 +84,20 @@ def get_category():
     crawl_id=input('请输入抓取编号（形如201608）：')
     crawl_date=datetime.date.today()
     storeys_url='http://dc.3.cn/category/get?callback=getCategoryCallback'      #京东首页目录楼层地址
-    response=requests.get(storeys_url)                                          #？错误捕捉与处理
+    response=requests.get(storeys_url)                                         
     response.encoding='gb2312'
     response_text=response.text
     storeys_json=json.loads(response_text[20:-1])
     storeys=storeys_json['data']                                             #storeys目录楼
-    for i in range(0,len(storeys)):                                                        #遍历目录楼
+    for i in range(0,len(storeys)):                                          #遍历目录楼
         storey=storeys[i]                                                    #storey第i层目录楼
         catalogs_level1=storey['s']                                          #catalogs_level1第i层的所有一级目录catalogs_level1
+        catalog_level1_name = ''
+        for j in range(0, len(catalogs_level1)):
+            catalog_level1_name = catalog_level1_name+catalogs_level1[j]['n'].split('|')[1]
         for j in range(0,len(catalogs_level1)):                                 #遍历一级目录
             catalog_level1=catalogs_level1[j]                                #catalog_level1第i层的第j个一级目录
-            catalog_level1_name=catalog_level1['n'].split('|')[1]               #第j个一级目录名称
+            #catalog_level1_name=catalog_level1['n'].split('|')[1]               #第j个一级目录名称
             catalogs_level2=catalog_level1['s']                              #catalogs_level2第j个一级目录的所有二级目录
             for k in range(0,len(catalogs_level2)):                             #遍历二级目录
                 catalog_level2=catalogs_level2[k]                            #catalog_level2第j个一级目录的第k个二级目录

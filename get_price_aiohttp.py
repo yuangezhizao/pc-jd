@@ -44,13 +44,13 @@ def parse(sku):
     ware_provider = ''
     url='http://item.m.jd.com/product/'+str(sku)+'.html'
     try:
-        response=requests.get(url).text
-        soup=bs4.BeautifulSoup(response,'html.parser')
+        response = requests.get(url).text
+        soup = bs4.BeautifulSoup(response,'html.parser')
         sku_name = soup.find('input',id='goodName').get('value')
         sku_price = soup.find('input',id='jdPrice').get('value')
         stock_state = re.findall("(?<=stockState:').+(?=')", response)[0]
         service_provider = soup.find('div',id='serviceFlag').get('data')
-        #ware_provider = soup.select('.title-text')[0].i.span.string
+        ware_provider = soup.select('.title-text')[0].i.span.string
         #shop message
         shop_msg = re.findall("(?<=WareArg\['shopInfo'\] = ).+(?=;)", response)[0]
         shop_msg = shop_msg.replace('true','"true"')
