@@ -76,7 +76,7 @@ if __name__=='__main__':
     while sku_group_queue.qsize()>0:
         loop=asyncio.get_event_loop()
         tasks=[]
-        for n in range(0,500):
+        for n in range(0,200):
             task=asyncio.ensure_future(get_count(sku_group_queue.get()))
             tasks.append(task)
         loop.run_until_complete(asyncio.wait(tasks))
