@@ -10,7 +10,7 @@ library(RODBC)
 
 output <- function(crawl_id, table_name)
 {
-mysql <- odbcConnect('customer', uid='root', pwd='1111', DBMSencoding='utf8')
+mysql <- odbcConnect('lz-home', uid='commen', pwd='1111', DBMSencoding='gbk')
 sql <- paste('select * from ', table_name, ' where crawl_id=', crawl_id, sep='')
 data <- data.table(sqlQuery(mysql, sql))
 path <- paste('f:/customer/', table_name, '_', crawl_id, '.csv', sep='')

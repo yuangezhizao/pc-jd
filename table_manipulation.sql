@@ -45,23 +45,23 @@ create table price_jd(              #京东商品价格表
   crawl_id char(6) not null,        #抓取编号
   sku varchar(45),                  #sku_jd.sku
   sku_name varchar(200),            #sku名称
-  sku_price decimal(5,2),           #sku价格
+  sku_price varchar(15),           #sku价格
   stock_state varchar(50),          #库存状态
   shop_id varchar(45),              #店铺编号
   shop_name varchar(45),            #店铺名称
-  shop_score decimal(3,1),          #店铺评分
-  follow_count int,                 #店铺关注人数
+  shop_score varchar(15),          #店铺评分
+  follow_count varchar(15),                 #店铺关注人数
   vender_type varchar(6),           
   ware_type varchar(6),           
   diamond varchar(10),
-  ware_score decimal(3,1),          #商品评分
-  avg_ware_score decimal(3,1),      
+  ware_score varchar(15),          #商品评分
+  avg_ware_score varchar(15),      
   ware_score_level varchar(6),      #商品评分级别
-  efficiency_score decimal(3,1),    #物流评分
-  avg_efficiency_score decimal(3,1),      
+  efficiency_score varchar(15),    #物流评分
+  avg_efficiency_score varchar(15),      
   efficiency_score_level varchar(6), #物流评分级别  
-  service_score decimal(3,1),       #服务评分
-  avg_service_score decimal(3,1),      
+  service_score varchar(15),       #服务评分
+  avg_service_score varchar(15),      
   service_score_level varchar(6),   #服务评分级别  
   service_provider varchar(100),    #由***发货，由**提供售后服务
   ware_provider varchar(15),        #自营
