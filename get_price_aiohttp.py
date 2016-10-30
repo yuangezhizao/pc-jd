@@ -23,7 +23,6 @@ import re
 import datetime
 import queue
 import pymysql
-import time
 
 #解析文本，获取数据
 def parse(text):
@@ -113,8 +112,6 @@ async def get_price(sku):
             crawl_time = now.strftime('%H:%M:%S')
             list_tail = [crawl_date,crawl_time]
             price = list_head+price_msg+list_tail
-            #print(price)
-            '''
             conn = await aiomysql.connect(host='127.0.0.1', user='root', password='1111', db='customer', charset='utf8')
             cur = await conn.cursor()
             sql = 'insert into price_jd(crawl_id,sku,sku_name,sku_price,stock_state,\
@@ -128,11 +125,9 @@ async def get_price(sku):
             await conn.commit()
             await cur.close()
             conn.close()
-            '''
 
 if __name__ == '__main__':
     crawl_id = input('输入抓取编码（201609）：')
-    start = time.time()
     conn = pymysql.connect(host='127.0.0.1', user='root', password='1111', db='customer')
     cur = conn.cursor()
     cur.execute('select sku from sku_jd limit 10000')
@@ -143,15 +138,6 @@ if __name__ == '__main__':
     for i in skus:
         for j in i:
             sku_queue.put(j)
-    tasks = []
-    while sku_queue.qsize()>0:
-        task = asyncio.ensure_future(get_price(sku_queue.get()))
-        tasks.append(task)
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(asyncio.wait(tasks))
-    end = time.time()
-    print('interval:%s'%(end-start))
-    '''
     while sku_queue.qsize()>0:
         loop = asyncio.get_event_loop()
         tasks = []
@@ -159,5 +145,4 @@ if __name__ == '__main__':
             task = asyncio.ensure_future(get_price(sku_queue.get()))
             tasks.append(task)
         loop.run_until_complete(asyncio.wait(tasks))
-    '''
 
