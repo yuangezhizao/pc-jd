@@ -67,6 +67,48 @@ create table price_jd(              #京东商品价格表
   ware_provider varchar(15),        #自营
   crawl_date varchar(45),
   crawl_time varchar(45)) engine=InnoDB;  
+create table comment_jd(
+  id bigint auto_increment primary key, #自增主键
+  crawl_id char(6) not null,        #抓取编号
+  sku varchar(45),                  #sku_jd.sku
+  good_count int,                   #好评数量
+  general_count int,                #中评数量
+  poor_count int,                   #差评数量
+  image_list_count int,             #评论中图片总数
+  comment_id varchar(45),           #评论id
+  comment_guid varchar(100),        #评论guid
+  comment_content text,             #评论内容
+  creation_time varchar(45),        #评论创建时间
+  reference_time varchar(45),       #基准时间，顾客收货时间
+  #is_top varchar(45),               #是否置顶
+  reference_id varchar(45),         #基准sku
+  reference_name varchar(150),      #基准sku名称
+  first_category varchar(45),       #一级类别编码
+  second_category varchar(45),      #一级类别编码  
+  third_category varchar(45),       #一级类别编码  
+  reply_count int,                  #评论回复数量
+  score int,                        #评分
+  status_code varchar(15),
+  title varchar(45),               
+  useful_vote_count int,            #该评论的点赞数量
+  useless_vote_count int,
+  user_image_url varchar(200),      #用户头像url
+  user_level_id varchar(45),
+  user_province varchar(45),        #省份
+  user_register_time varchar(45),   #注册时间
+  nickname varchar(45),             #用户名
+  user_client varchar(45), 
+  product_color varchar(45),        #产品颜色
+  product_size varchar(45),         #产品尺寸
+  image_count int,                  #该评论的图片数量
+  anonymous_flag varchar(45),       #匿名标志
+  user_level_name varchar(45),      #会员级别
+  user_client_show varchar(45),     #设备来源，安卓...
+  #is_mobile varchar(45), 
+  days int,                         #收货多少天后评论
+  crawl_date varchar(45),           #爬取日期
+  crawl_time varchar(45)            #爬取时间
+) engine=InnoDB;
   
   
   
