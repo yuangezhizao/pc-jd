@@ -33,7 +33,10 @@ def parse(sku):
     for i in range(0, max_page+1):
         comment_list = []
         url_i = 'http://club.jd.com/comment/skuProductPageComments.action?productId=%s&score=0&sortType=3&page=%s&pageSize=10&callback=fetchJSON_comment98vv4914'%(sku,i)
-        response_i = requests.get(url_i)
+        try:        
+            response_i = requests.get(url_i)
+        except:
+            continue
         txt_i = response_i.text
         comment_dict_i = json.loads(txt_i[26:-2])
         #comments
@@ -98,8 +101,11 @@ def parse(sku):
                 user_client_show,days,crawl_date,crawl_time) values(%s,%s,%s,%s,\
                 %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,\
                 %s,%s,%s,%s,%s,%s,%s,%s,%s)'
-                cur.execute(sql, comment_list)
-                conn.commit()
+                try:
+                    cur.execute(sql, comment_list)
+                    conn.commit()
+                except:
+                    continue
                 cur.close()
                 conn.close()
 
@@ -107,13 +113,12 @@ if __name__ == '__main__':
     global crawl_id
     crawl_id = input('输入抓取编号（201611）：')
     conn = pymysql.connect(host='127.0.0.1', user='root', password='1111', db='customer')
-    skus = pd.read_sql('select sku from sku_jd where crawl_id="201609"', conn)
+    skus = pd.read_sql('select sku from sku_jd where crawl_id="201609" limit 1000000', conn)
     conn.close()
     skus = skus.drop_duplicates('sku')
     for sku in skus['sku']:
-        print(str(sku))
-
-
-    '''
-    parse('1427585')
-    '''
+        try:
+            parse(str(sku))
+        except:
+            print(sku)
+            continue
