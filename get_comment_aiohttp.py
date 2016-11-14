@@ -133,33 +133,19 @@ def get_comment(sku):
     for i in range(0, max_page):
         task = asyncio.ensure_future(bound_fetch(sem, sku, i))
         tasks.append(task)
-    loop.run_until_complete(asyncio.wait(tasks))
-   
-    '''
-    while max_page>0:
-        loop = asyncio.get_event_loop()
-        tasks = []
-        for i in range(max_page-346, max_page):
-            task = asyncio.ensure_future(get_comment_i(sku,i))
-            tasks.append(task)
-        loop.run_until_complete(asyncio.wait(tasks))
-        max_page = max_page-346
-    '''
-            
+    loop.run_until_complete(asyncio.wait(tasks))          
 
 if __name__ == '__main__':
     global crawl_id
     crawl_id = input('输入抓取编号（201611）：')
-    '''
     conn = pymysql.connect(host='127.0.0.1', user='root', password='1111', db='customer')
     cur = conn.cursor()
-    sql = 'select sku from sku_jd limit 1'
+    sql = 'select distinct sku from sku_jd where crawl_id="201609" and category_level3_id="9987,653,655"'
     cur.execute(sql)
     skus = cur.fetchall()
+    cur.close()
+    conn.close()
     for i in skus:
         for sku in i:
             get_comment(sku)
-    '''
-    get_comment('647948')
-    get_comment('647948')
 
