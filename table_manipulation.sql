@@ -75,6 +75,8 @@ create table comment_jd(
   general_count int,                #中评数量
   poor_count int,                   #差评数量
   image_list_count int,             #评论中图片总数
+  max_page int,                     #该sku评论的页数
+  page int,                         #当前评论所在的页数
   comment_id varchar(45),           #评论id
   comment_guid varchar(100),        #评论guid
   comment_content text,             #评论内容
