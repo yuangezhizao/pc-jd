@@ -17,6 +17,7 @@ import json
 import re
 import pymysql
 import datetime
+import pandas as pd
 
 #解析文本，返回评论列表[[], [], []]，第page页的txt
 def parse(txt, page):
@@ -177,8 +178,9 @@ def get_skus(crawl_id, category_level3_id):
             sku_latest = i[0] #未爬完的sku
             max_page_latest = i[1] #该sku的评论页数
             page_latest = i[2] #已爬到的页数
-            if page_latest < max_page_latest:
-                skus[sku_latest] = page_latest+1
+            if max_page_latest is not None and page_latest is not None:
+                if page_latest < max_page_latest:
+                    skus[sku_latest] = page_latest+1
     cur.close()
     conn.close()
     #未爬取sku的初始页数
@@ -189,9 +191,12 @@ def get_skus(crawl_id, category_level3_id):
 if __name__ == '__main__':
     global crawl_id
     crawl_id = input('输入抓取编号（201611）：')
+    '''
     crawl_id_sku_jd = input('请选择待抓取sku的抓取编号（sku_jd中）：')
     category_level3_id = input('请输入待抓取的商品类别编码：')
     skus = get_skus(crawl_id_sku_jd, category_level3_id)
-    for sku in skus:
-        get_comment(sku, skus[sku])
+    '''
+    skus = pd.read_csv('E:/领添/李壮/mine/RData/sku_1502.csv', dtype=str)
+    for sku in skus['sku']:
+        get_comment(sku, 0)
 

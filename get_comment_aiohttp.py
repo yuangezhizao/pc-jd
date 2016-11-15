@@ -177,8 +177,9 @@ def get_skus(crawl_id, category_level3_id):
             sku_latest = i[0] #未爬完的sku
             max_page_latest = i[1] #该sku的评论页数
             page_latest = i[2] #已爬到的页数
-            if page_latest < max_page_latest:
-                skus[sku_latest] = page_latest+1
+            if max_page_latest is not None and page_latest is not None:
+                if page_latest < max_page_latest:
+                    skus[sku_latest] = page_latest+1
     cur.close()
     conn.close()
     #未爬取sku的初始页数
