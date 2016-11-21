@@ -190,9 +190,12 @@ def get_skus(crawl_id, category_level3_id):
 if __name__ == '__main__':
     global crawl_id
     crawl_id = input('输入抓取编号（201611）：')
+    '''
     crawl_id_sku_jd = input('请选择待抓取sku的抓取编号（sku_jd中）：')
     category_level3_id = input('请输入待抓取的商品类别编码：')
     skus = get_skus(crawl_id_sku_jd, category_level3_id)
     for sku in skus:
         get_comment(sku, skus[sku])
+    '''
+    get_comment('10049010499',0)
 

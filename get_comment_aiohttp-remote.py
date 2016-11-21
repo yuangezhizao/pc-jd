@@ -128,7 +128,7 @@ def get_comment(sku, start_page):
     comment_dict = json.loads(txt[26:-2]) #comment dictionary
     #max page
     max_page = comment_dict['maxPage'] #该sku的评论页数
-    print(max_page)
+    print('pages:%s'%max_page)
     if max_page>0: #若页数为0，会出现ValueError: Set of coroutines/Futures is empty.
         loop = asyncio.get_event_loop()
         tasks = []
@@ -191,12 +191,19 @@ def get_skus(crawl_id, category_level3_id):
 if __name__ == '__main__':
     global crawl_id
     crawl_id = input('输入抓取编号（201611）：')
-    '''
     crawl_id_sku_jd = input('请选择待抓取sku的抓取编号（sku_jd中）：')
     category_level3_id = input('请输入待抓取的商品类别编码：')
     skus = get_skus(crawl_id_sku_jd, category_level3_id)
     '''
     skus = pd.read_csv('E:/领添/李壮/mine/RData/sku_1502.csv', dtype=str)
-    for sku in skus['sku']:
-        get_comment(sku, 0)
+    '''
+    n=0
+    for sku in skus:
+        try:
+            get_comment(sku, skus[sku])
+            n=n+1
+            print('已完成%s/%s'%(n, len(skus)))
+        except:
+            print('error:%s'%sku)
+            continue
 
