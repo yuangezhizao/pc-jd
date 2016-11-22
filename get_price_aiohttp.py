@@ -104,7 +104,7 @@ async def get_price(sku):
         mobilev=html5; mba_muid=852353802; sid=55766492fb319ce3654811c03500b857; __jdb=122270672.1.852353802|27.1477356921288;\
         __jdc=122270672; mba_sid=14773569212966021617429660064.1'}
     async with aiohttp.ClientSession(headers=headers) as session:
-        async with session.get(url) as response:
+        async with session.get(url, proxy='http://60.211.209.114:8080') as response:
             text = await response.text()
             price_msg =parse(text)
             crawl_date = datetime.date.today()
