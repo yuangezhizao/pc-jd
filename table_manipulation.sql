@@ -111,6 +111,16 @@ create table comment_jd(
   crawl_date varchar(45),           #爬取日期
   crawl_time varchar(45)            #爬取时间
 ) engine=InnoDB;
+create table proxy(
+  id int auto_increment primary key, #自增主键
+  ip varchar(15) not null,           #ip
+  port varchar(10),                  #port
+  protocol varchar(5),               #http or https
+  url varchar(100),                  #爬取的网址
+  crawl_date varchar(45),            #爬取日期
+  crawl_time varchar(45)             #爬取时间
+) engine=InnoDB;
+
   
   
   
