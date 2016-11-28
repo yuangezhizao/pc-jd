@@ -1,19 +1,54 @@
 create table category_jd(           #京东类别全量表
-  crawl_id char(6) not null,        #抓取编号
-  category_level3_id varchar(45),   #三级类别编码
-  category_level3_name varchar(90), #三级类别名称
-  category_level2_name varchar(90), #二级类别名称
-  category_level1_name varchar(90), #一级类别名称
-  crawl_date varchar(45)            #抓取日期
-);
-create table sku_jd(                #京东sku全量表
   id bigint auto_increment primary key, #自增主键
+  crawl_id char(6) not null,        #抓取编号
+  brand_id varchar(15),             #品牌编号
+  brand_name varchar(60),           #品牌名称
+  category_level3_id varchar(20),   #三级类别编码
+  category_level3_name varchar(45), #三级类别名称
+  category_level2_name varchar(45), #二级类别名称
+  category_level1_name varchar(45), #一级类别名称
+  crawl_date varchar(15)            #抓取日期
+  crawl_time varchar(15)            #抓取时间
+);
+create table sku_jd_2(
+  id bigint auto_increment,         #自增主键
   crawl_id char(6) not null,        #京东抓取编号
-  sku varchar(45),                  #sku编码
-  sku_group varchar(45),            #sku组名,如相同款式衣服，不同的颜色
-  category_level3_id varchar(45),   #三级类别编码
-  crawl_date varchar(45),           #抓取日期
-  crawl_time varchar(45));          #抓取时间
+  sku varchar(20),                  #sku编码
+  sku_group varchar(20),            #sku组名,如相同款式衣服，不同的颜色
+  brand_id varchar(15),             #category_jd.brand_id
+  category_level3_id varchar(20),   #category_jd.category_level3_id
+  crawl_date varchar(15),           #抓取日期
+  crawl_time varchar(15),           #抓取时间
+  primary key (id, crawl_id)
+  ) engine=InnoDB 
+  partition by list columns(crawl_id)
+  (
+  partition p00 values in ('201609'),
+  partition p01 values in ('201610'),
+  partition p02 values in ('201611'),
+  partition p03 values in ('201612'),
+  partition p04 values in ('201701'),
+  partition p05 values in ('201702'),
+  partition p06 values in ('201703'),
+  partition p07 values in ('201704'),
+  partition p08 values in ('201705'),
+  partition p09 values in ('201706'),
+  partition p10 values in ('201707'),
+  partition p11 values in ('201708'),
+  partition p12 values in ('201709'),
+  partition p13 values in ('201710'),
+  partition p14 values in ('201711'),
+  partition p15 values in ('201712')
+  );          
+
+#create table sku_jd(                #京东sku全量表
+#  id bigint auto_increment primary key, #自增主键
+#  crawl_id char(6) not null,        #京东抓取编号
+#  sku varchar(45),                  #sku编码
+#  sku_group varchar(45),            #sku组名,如相同款式衣服，不同的颜色
+#  category_level3_id varchar(45),   #三级类别编码
+#  crawl_date varchar(45),           #抓取日期
+#  crawl_time varchar(45));          #抓取时间
 create table comment_count_jd(      #京东商品评论数量表
   id bigint auto_increment primary key, #自增主键
   crawl_id char(6) not null,        #抓取编号
