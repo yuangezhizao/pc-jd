@@ -1,6 +1,6 @@
 #sku_jd
 select * from sku_jd order by id desc limit 10;
-select * from sku_jd where crawl_date='2017-02-09' and page_size>6 order by id desc limit 10 #检查重定向是否有问题
+select * from sku_jd where crawl_date='2017-04-05' and page_size>6 order by id desc limit 10 #检查重定向是否有问题
 
 #comment_count_jd
 select * from comment_count_jd order by id desc limit 10;
