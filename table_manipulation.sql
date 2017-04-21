@@ -14,6 +14,10 @@ create table category_jd(           #京东类别全量表
   index(category_level1_name),
   index(category_level3_name)
 );
+
+create table category_key_jd like category_jd; #京东关键类别全量表
+
+
 create table sku_jd(
   id int auto_increment primary key,#自增主键
   crawl_id char(6) not null,        #京东抓取编号
@@ -33,6 +37,8 @@ create table sku_jd(
   index(shop_id),
   index(crawl_date)
   ) engine=InnoDB;          
+  
+create table sku_phone_jd like sku_jd; #手机SKU
 
 create table comment_count_jd(      #京东商品评论数量表
   id int auto_increment,            #自增主键

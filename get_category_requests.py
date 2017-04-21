@@ -185,7 +185,7 @@ if __name__=='__main__':
                     record = [crawl_id] + brand + [crawl_date, crawl_time]
                     input_mysql(record)
         n = n+1
-        time.sleep(random.randint(10,60))
+        #time.sleep(random.randint(10,60))
         print('get_category:已完成%s/%s三级商品类别'%(n, len(category_level3_list)))
     
     
