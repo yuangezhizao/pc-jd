@@ -35,7 +35,8 @@ create table if not exists sku_jd(
  sku_name                varchar(200),
  vender_id               varchar(15),
  shop_id                 varchar(15),
- sku_specs               json
+ sku_specs               json,
+ crawl_time              timestamp
  );
 comment on table sku_jd                           is '京东sku表';
 comment on column sku_jd.id                       is '自增主键';
@@ -48,6 +49,7 @@ comment on column sku_jd.sku_name                 is 'sku名称';
 comment on column sku_jd.vender_id                is '供应商id';
 comment on column sku_jd.shop_id                  is '店铺id';
 comment on column sku_jd.sku_specs                is 'sku规格';
+comment on column sku_jd.crawl_time               is '爬取日期和时间'
 create index if not exists crawl_id_sku_jd on sku_jd(crawl_id);
 create index if not exists category_level3_id_sku_jd on sku_jd(category_level3_id);
 create index if not exists brand_id on sku_jd(brand_id);

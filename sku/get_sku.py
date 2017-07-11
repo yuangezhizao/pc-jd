@@ -23,6 +23,8 @@ import requests
 import bs4
 import re
 import json
+import sys
+sys.path.append('C:/Users/Administrator/Documents/GitHub/pc-jd')
 
 sku_url = 'https://item.jd.com/%s.html'
 
@@ -69,14 +71,13 @@ def get_sku_group(category_level3_id, brand_id, page):
                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                    'Accept-Language': 'zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3',
                    'Accept-Encoding': 'gzip, deflate, br',
-                   'Cookie': '__jda=122270672.852353802.1474856712.1486358489.1486431022.166;\
-                              unpl=V2_ZzNtbUYCREd1C0UBK0pbA2JXRVRKXkYWcFhFXXpJCQViARBYclRCFXMUR1dnGFsUZwEZXkBcQhRFCHZXeBhYBmYBG1hyZ3MWdThOZHIdXwdjARtcQWdzEkU4OgowQQFYNwATXUdnQBZ0DEZdeRpaNWYzEFVLX0oUdg5GZDB3XUhuBxFfRlVKFHY4R2R4;\
-                              __jdv=122270672|offlintab.firefoxchina.cn|t_220520384_|tuiguang|5d6c122dab674ef898424a280ad14334|1486358488626;\
-                              __jdu=852353802; ipLoc-djd=12-904-3379-0; listck=6a4f06bc7909c0febd00a75cb624f2dd; ipLocation=%u6C5F%u82CF;\
-                              TrackID=1xERLbwIsJ4vTcdDWgOt2SFQqRrEj1Nqfvz5rtXc3_ln4C2LGW_qJ-DuOBavxz5ZsGAbKgvPRB_AJM1VMRm3xF-20QzKQTm3zsaQa2n_HLj8;\
-                              pinId=eEjGiU8n5xTiJ9euZLy0oQ; mt_xid=V2_52007VwoWUV9cUFMeSikMUm8AFlZbXE4NF0hKQABlBhVOVFtSUgMeGg9QYQFCBVhZVw0vShhcA3sCEk5eXUNZHkIYVQ5nCiJQbVhiWh5NEVsBZQcTYlhe;\
-                              areaId=12; __jdb=122270672.4.852353802|166.1486431022;\
-                              __jdc=122270672',
+                   'Cookie': 'ipLoc-djd=1-72-4137-0; areaId=1; listck=172da4b0bc62341d1b48e56fe2ab9b08; \
+                              __jda=122270672.14985695856271924978656.1498569586.1499514515.1499589124.17; \
+                              __jdv=122270672|direct|-|none|-|1498569585633; __jdu=14985695856271924978656; \
+                              user-key=f181f826-a163-495e-b42e-92c22ab2d2da; cn=0; \
+                              mt_xid=V2_52007VwMXWlRcVVIbQB1bBmEDGlFYUFRTGE0ebAw0B0ZVWgpWRkodH1wZYgsUB0FRAV9KVUlVVm4HQVtUWgZeGXkaXQVhHxNVQVtaSxxKEl8BbAEaYl9oUmofShhcB2cEEVFtXVQ%3D; \
+                              __jdb=122270672.2.14985695856271924978656|17.1499589124; \
+                              __jdc=122270672; 3AB9D23F7A4B3C9B=BTSXKDZRQV7XVVC2YDO7KICAJAAWDBDHCGSE2EW7G44E47INMFI7ETMTORC6ZI4ATVKX67NYRPTVBVRBL2TCIVGHGU',
                    'Connection': 'keep-alive',
                    'Upgrade-Insecure-Requests': '1'}
         response = requests.get(url, params=params, headers=headers, allow_redirects=False)
@@ -121,6 +122,8 @@ def get_sku_params(sku):
         params.append(vender_id)
         shop_id = re.findall("(?<=shopId:')\d+(?=')", txt)[0]
         params.append(shop_id)
+        #规格参数，两种情形
+        #情形1
         specs_soup = soup.select('.Ptable-item')
         for s in specs_soup:
             h3_name = s.h3.string
@@ -133,11 +136,28 @@ def get_sku_params(sku):
                 dd_name.append(i.string)
             for j in range(0, len(dt_name)):
                 specs_dict[h3_name][dt_name[j]] = dd_name[j]
+        #情形2
+        if len(specs_dict) == 0:
+            tr_list = re.findall('<tr>.+tr>', txt)
+            for tr in tr_list:
+                soup = bs4.BeautifulSoup(tr, 'html.parser')
+                th = soup.find('th')
+                td = soup.find_all('td')
+                if th:
+                    th_key = th.string
+                    specs_dict.setdefault(th_key, {})
+                elif td:
+                    td_key = td[0].string
+                    td_value = td[1].string
+                    specs_dict[th_key][td_key] = td_value
         specs = json.dumps(specs_dict, ensure_ascii=False)
         params.append(specs)
     except:
         print('error: get_sku_params: %s' % sku)
     return params
+
+                    
+            
 
     
 
