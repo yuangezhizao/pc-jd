@@ -24,7 +24,17 @@ import bs4
 import re
 import json
 import sys
-sys.path.append('C:/Users/Administrator/Documents/GitHub/pc-jd')
+sys.path.append('C:/Users/Administrator/Documents/GitHub/pc-jd') #设置导入自定义模块的路径
+import logging
+
+#设置日志
+logger = logging.getLogger('get_sku')
+logger.setLevel(logging.DEBUG)
+#输出到文件logger.txt
+handler = logging.FileHandler('C:/Users/Administrator/Documents/GitHub/pc-jd/sku/logger.txt')
+pattern = logging.Formatter('%(asctime)s-%(filename)s[line: %(lineno)d]-%(funcName)s-%(levelname)s-%(message)s')
+handler.setFormatter(pattern)
+logger.addHandler(handler)
 
 sku_url = 'https://item.jd.com/%s.html'
 
@@ -52,6 +62,7 @@ def get_pages(category_level3_id, brand_id):
             else:
                 pages = 1
     except:
+        logger.error('不能获取%s-%s页数' % (category_level3_id, brand_id))
         pages = 0
     return pages
 
@@ -84,14 +95,16 @@ def get_sku_group(category_level3_id, brand_id, page):
         txt = response.text
     except:
         txt = ''
-        print('error: get_sku_group: 下载%s的%s第%s页失败' % (category_level3_id, brand_id, page))
+        logger.error('下载%s-%s第%s页sku_group失败' % (category_level3_id, brand_id, page))
     if txt:
         soup = bs4.BeautifulSoup(txt, 'html.parser')
         for s in soup.select('div[venderid]'):
             sku_group = s['data-sku']
             sku_group_list.append(sku_group)
+        logger.info('成功获取%s-%s第%s页的sku_group' % (category_level3_id, brand_id, page))
     else:
         sku_group_list = []
+        logger.info('失败获取%s-%s第%s页的sku_group' % (category_level3_id, brand_id, page))
     return sku_group_list
         
     
@@ -105,7 +118,7 @@ def get_sku_from_sku_group(sku_group):
         sku_list = re.findall(pattern, txt)
     except:
         sku_list=[]
-        print('error: get_sku_from_sku_group: %s' % sku_group) 
+        logger.error('获取sku失败%s' % sku_group) 
     return sku_list
 
 #获取sku的参数
@@ -146,14 +159,14 @@ def get_sku_params(sku):
                 if th:
                     th_key = th.string
                     specs_dict.setdefault(th_key, {})
-                elif td:
+                elif td and len(td)>1:
                     td_key = td[0].string
                     td_value = td[1].string
                     specs_dict[th_key][td_key] = td_value
         specs = json.dumps(specs_dict, ensure_ascii=False)
         params.append(specs)
     except:
-        print('error: get_sku_params: %s' % sku)
+        logger.error('获取%s参数失败' % sku)
     return params
 
                     
