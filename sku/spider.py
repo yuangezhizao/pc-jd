@@ -107,7 +107,7 @@ def crawl(crawl_id, category_level3_id, brand_id):
                                 logger.error('不能存入数据库%s' % sku)
 
 if __name__ == '__main__':
-    crawl_id = '20170728'
+    crawl_id = input('输入抓取编号（20170906）：')
     category_level3_id = '9987,653,655'
     brand_id_list = get_brand(category_level3_id, crawl_id)
     for brand_id in brand_id_list:

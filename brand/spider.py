@@ -6,10 +6,12 @@ Created on Sun Jun 25 16:25:51 2017
 """
 
 import get_brand
-import store
+import sys
+sys.path.append('C:/Users/Administrator/Documents/GitHub/pc-jd')
+import config.store as store
 
 category_level3_id = '9987,653,655'
-crawl_id = '20170625'
+crawl_id = input('输入抓取编号（20170905）：')
 sql = 'insert into brand_jd(                                          \
                   crawl_id,                                           \
                   category_level3_id,                                 \
