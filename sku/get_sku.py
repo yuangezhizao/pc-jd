@@ -82,13 +82,12 @@ def get_sku_group(category_level3_id, brand_id, page):
                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                    'Accept-Language': 'zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3',
                    'Accept-Encoding': 'gzip, deflate, br',
-                   'Cookie': 'ipLoc-djd=1-72-4137-0; areaId=1; listck=172da4b0bc62341d1b48e56fe2ab9b08; \
-                              __jda=122270672.14985695856271924978656.1498569586.1499514515.1499589124.17; \
-                              __jdv=122270672|direct|-|none|-|1498569585633; __jdu=14985695856271924978656; \
-                              user-key=f181f826-a163-495e-b42e-92c22ab2d2da; cn=0; \
-                              mt_xid=V2_52007VwMXWlRcVVIbQB1bBmEDGlFYUFRTGE0ebAw0B0ZVWgpWRkodH1wZYgsUB0FRAV9KVUlVVm4HQVtUWgZeGXkaXQVhHxNVQVtaSxxKEl8BbAEaYl9oUmofShhcB2cEEVFtXVQ%3D; \
-                              __jdb=122270672.2.14985695856271924978656|17.1499589124; \
-                              __jdc=122270672; 3AB9D23F7A4B3C9B=BTSXKDZRQV7XVVC2YDO7KICAJAAWDBDHCGSE2EW7G44E47INMFI7ETMTORC6ZI4ATVKX67NYRPTVBVRBL2TCIVGHGU',
+                   'Cookie': '__jda=122270672.1490067447090925350938.1490067447.1497059771.1506257749.5; \
+                   __jdu=1490067447090925350938; \
+                   3AB9D23F7A4B3C9B=VNY6UGGHU26MUKHFLPFH4R5L7PH7ABUPPKR4K2FYAJQU3WQJ7MQICVWQJV3MADI4IOSXI2KNBSRE7JEMNM2UUDGF2I; \
+                   ipLoc-djd=1-72-4137-0; areaId=1; listck=8fc5a5a222b14910cbb8346df3a63e2b; \
+                   __jdb=122270672.1.1490067447090925350938|5.1506257749; \
+                   __jdc=122270672; __jdv=122270672|direct|-|none|-|1506257749417',
                    'Connection': 'keep-alive',
                    'Upgrade-Insecure-Requests': '1'}
         response = requests.get(url, params=params, headers=headers, allow_redirects=False)
