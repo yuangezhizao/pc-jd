@@ -49,7 +49,7 @@ comment on column sku_jd.sku_name                 is 'sku名称';
 comment on column sku_jd.vender_id                is '供应商id';
 comment on column sku_jd.shop_id                  is '店铺id';
 comment on column sku_jd.sku_specs                is 'sku规格';
-comment on column sku_jd.crawl_time               is '爬取日期和时间'
+comment on column sku_jd.crawl_time               is '爬取日期和时间';
 create index if not exists crawl_id_sku_jd                 on sku_jd(crawl_id);
 create index if not exists category_level3_id_sku_jd       on sku_jd(category_level3_id);
 create index if not exists brand_id                        on sku_jd(brand_id);
@@ -88,16 +88,3 @@ create table if not exists comment_count_jd(
  create index if not exists category_level3_id_comment_count_jd          on comment_count_jd(category_level3_id);
  create index if not exists brand_id_comment_count_jd                    on comment_count_jd(brand_id);
  create index if not exists sku_group_comment_count_jd                   on comment_count_jd(sku_group);
-
-
-
-
-
-
-
-
-
-
-
-
-
