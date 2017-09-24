@@ -5,9 +5,9 @@ Created on Sun Jun 25 16:25:51 2017
 @author: Administrator
 """
 
-import get_brand
 import sys
 sys.path.append('C:/Users/Administrator/Documents/GitHub/pc-jd')
+import brand.get_brand as get_brand
 import config.store as store
 
 category_level3_id = '9987,653,655'
