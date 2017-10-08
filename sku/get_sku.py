@@ -126,7 +126,7 @@ def get_sku_params(sku):
     params = []
     specs_dict = {}
     try:
-        txt = requests.get(url).text
+        txt = requests.get(url, timeout=1).text
         soup = bs4.BeautifulSoup(txt, 'html.parser')
         sku_name = soup.find('a', href='//item.jd.com/%s.html' % sku).string
         params.append(sku_name)
