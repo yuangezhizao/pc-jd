@@ -88,3 +88,73 @@ create table if not exists comment_count_jd(
  create index if not exists category_level3_id_comment_count_jd          on comment_count_jd(category_level3_id);
  create index if not exists brand_id_comment_count_jd                    on comment_count_jd(brand_id);
  create index if not exists sku_group_comment_count_jd                   on comment_count_jd(sku_group);
+
+
+-- 京东评论内容表
+create table if not exists comment_jd(
+  id                       serial      not null   primary key,
+  category_level3_id       varchar(20),
+  brand_id                 varchar(15),
+  sku                      varchar(20),
+  image_list_count         integer,
+  comment_id               bigint,
+  content                  text,
+  creation_time            char(19),
+  reference_time           char(19),
+  reply_count              smallint,
+  score                    smallint,          
+  useful_vote_count        smallint,
+  user_image_url           varchar(200),
+  user_level_id            varchar(10),
+  user_province            varchar(20),
+  user_register_time       char(19),
+  nickname                 varchar(45),
+  product_color            varchar(45),
+  product_size             varchar(45),
+  image_count              smallint,
+  anonymous_flag           smallint,
+  user_level_name          varchar(45),
+  user_client_show         varchar(45),
+  is_mobile                smallint,
+  days                     smallint,
+  crawl_time               timestamp
+);
+comment on table comment_jd                                        is '京东评论内容表';
+comment on column comment_jd.id                                    is '自增主键';
+comment on column comment_jd.category_level3_id                    is '三级类别编码';
+comment on column comment_jd.brand_id                              is '品牌编码';
+comment on column comment_jd.sku                                   is 'sku';
+comment on column comment_jd.image_list_count                      is 'sku评论中图片总数';
+comment on column comment_jd.comment_id                            is '评论id';
+comment on column comment_jd.content                               is '评论内容';
+comment on column comment_jd.creation_time                         is '评论创建时间';
+comment on column comment_jd.reference_time                        is '基准时间，顾客收货时间';
+comment on column comment_jd.reply_count                           is '评论回复数量';
+comment on column comment_jd.score                                 is '评分';           
+comment on column comment_jd.useful_vote_count                     is '该评论的点赞数量';
+comment on column comment_jd.user_image_url                        is '用户头像url';
+comment on column comment_jd.user_level_id                         is '用户级别';
+comment on column comment_jd.user_province                         is '省份';
+comment on column comment_jd.user_register_time                    is '注册时间';
+comment on column comment_jd.nickname                              is '用户名';
+comment on column comment_jd.product_color                         is '产品颜色';
+comment on column comment_jd.product_size                          is '产品尺寸';
+comment on column comment_jd.image_count                           is '该评论的图片数量';
+comment on column comment_jd.anonymous_flag                        is '匿名标志 1匿名 0未匿名 2未知';
+comment on column comment_jd.user_level_name                       is '会员级别';
+comment on column comment_jd.user_client_show                      is '设备来源，安卓等';
+comment on column comment_jd.is_mobile                             is '是否移动端，1是，0否，2未知';
+comment on column comment_jd.days                                  is '收货多少天后评论';
+comment on column comment_jd.crawl_time                            is '爬取时间';
+create index if not exists category_level3_id_comment_jd           on comment_jd(category_level3_id);
+create index if not exists brand_id_comment_jd                     on comment_jd(brand_id);
+create index if not exists sku_comment_jd                          on comment_jd(sku);
+
+
+
+
+
+
+
+
+
