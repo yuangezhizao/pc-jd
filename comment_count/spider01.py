@@ -9,8 +9,8 @@
 import sys
 sys.path.append('C:/Users/Administrator/Documents/GitHub/pc-jd')
 import config.db as db
-import comment.get_task as get_task
-import comment.get_comment_count as count
+import comment_count.get_task as get_task
+import comment_count.get_comment_count as count
 import logging
 import datetime
 import psycopg2
@@ -70,7 +70,7 @@ def crawl(category_level3_id, crawl_id):
 
 if __name__ == '__main__':
     category_level3_id = '9987,653,655'
-    crawl_id = '20170731'
+    crawl_id = '20171129'
     crawl(category_level3_id, crawl_id)
         
 

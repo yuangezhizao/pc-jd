@@ -117,6 +117,7 @@ create table if not exists comment_jd(
   user_client_show         varchar(45),
   is_mobile                smallint,
   days                     smallint,
+  img_url                  json,
   crawl_time               timestamp
 );
 comment on table comment_jd                                        is '京东评论内容表';
@@ -145,6 +146,7 @@ comment on column comment_jd.user_level_name                       is '会员级
 comment on column comment_jd.user_client_show                      is '设备来源，安卓等';
 comment on column comment_jd.is_mobile                             is '是否移动端，1是，0否，2未知';
 comment on column comment_jd.days                                  is '收货多少天后评论';
+comment on column comment_jd.img_url                               is '评论中的图片链接'; 
 comment on column comment_jd.crawl_time                            is '爬取时间';
 create index if not exists category_level3_id_comment_jd           on comment_jd(category_level3_id);
 create index if not exists brand_id_comment_jd                     on comment_jd(brand_id);

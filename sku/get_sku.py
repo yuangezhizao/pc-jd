@@ -162,7 +162,7 @@ def get_sku_params(sku):
                     td_key = td[0].string
                     td_value = td[1].string
                     specs_dict[th_key][td_key] = td_value
-        specs = json.dumps(specs_dict, ensure_ascii=False)
+        specs = json.dumps(specs_dict, ensure_ascii=False) #避免中文转换为ascii
         params.append(specs)
     except:
         logger.error('获取%s参数失败' % sku)
