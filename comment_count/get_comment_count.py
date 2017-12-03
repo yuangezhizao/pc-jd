@@ -17,7 +17,7 @@ import logging
 #日志
 logger = logging.getLogger('get_comment_count')
 logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler('C:/Users/Administrator/Documents/GitHub/pc-jd/comment/logger.txt')
+handler = logging.FileHandler('C:/Users/Administrator/Documents/GitHub/pc-jd/comment_count/logger.txt')
 pattern = logging.Formatter('%(asctime)s-%(filename)s[line: %(lineno)d]-%(funcName)s-%(levelname)s-%(message)s')
 handler.setFormatter(pattern)
 logger.addHandler(handler)

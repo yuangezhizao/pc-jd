@@ -17,6 +17,50 @@ import requests
 #gevent.monkey.patch_all(thread=False)
 import datetime
 import json
+import logging
+
+#日志
+logger = logging.getLogger('get_comment')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler('C:/Users/Administrator/Documents/GitHub/pc-jd/comment/logger.txt')
+pattern = logging.Formatter('%(asctime)s-%(filename)s[line: %(lineno)d]-%(funcName)s-%(levelname)s-%(message)s')
+handler.setFormatter(pattern)
+logger.addHandler(handler)
+
+#爬取sku第page页的评论，失败返回空list
+#score: 1:差评 2：中评 3：好评 0：所有
+#sort_type: 6:时间排序 5：推荐排序
+def get_comment(sku, page, score=1, sort_type=6):
+    url = 'https://club.jd.com/comment/skuProductPageComments.action'
+    params = {'productId':sku,
+              'score':score,
+              'sortType':sort_type,
+              'page':page,
+              'pageSize':10,
+              'isShadowSku':0}
+    try:
+        headers = {'Accept': '*/*',
+                   'Accept-Encoding': 'gzip, deflate, br',
+                   'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
+                   'Connection': 	'keep-alive',
+                   'Cookie': '__jda=122270672.1510146318720515461731.1510146319.1512050551.1512132566.14; \
+                              __jdu=1510146318720515461731; ipLoc-djd=1-72-4137-0; \
+                              areaId=1; user-key=5e1e3763-7d5d-4469-87df-172337fd4f04; \
+                              cn=0; __jdv=122270672|direct|-|none|-|1511673043164; \
+                              __jdb=122270672.3.1510146318720515461731|14.1512132566; \
+                              __jdc=122270672; seckillSku=5089253; seckillSid=; \
+                              3AB9D23F7A4B3C9B=Y6IKLRFYDNP2G3YYGCQ3OPP56J5EWHCRSFC7B5EJ7KJOE3C2W64HZIGIYMTYYBVXG6AEPRMVAQMP74IX7DQK5SYHRA',
+                   'Host': 'club.jd.com',
+                   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:58.0) Gecko/20100101 Firefox/58.0'}
+        response = requests.get(url, params=params, headers=headers)
+        txt = response.text
+        comments_list = parse(txt)
+        logger.info('成功获取%s第%s页的%s条评论' % (sku, page, len(comments_list)))
+    except:
+        logger.error('%s第%s页评论获取失败' % (sku, page))
+        comments_list = []
+    return comments_list
+
 
 #返回评论list，若没有评论返回空list
 def parse(txt):
@@ -66,19 +110,5 @@ def parse(txt):
 
 
 
-def load(sku, page, score=0, sort_type=6):
-    url = 'https://club.jd.com/comment/skuProductPageComments.action'
-    params = {'productId':sku,
-              'score':score,
-              'sortType':sort_type,
-              'page':page,
-              'pageSize':10,
-              'isShadowSku':0}
-    try:
-        response = requests.get(url, params=params)
-        txt = response.text
-    except:
-        print('error: load: %s第%s页下载失败' % (sku, page))
-        txt = ''
-    return txt
+
     
